@@ -1,12 +1,13 @@
 #!ipxe
-###
-### netboot.xyz-custom menu
-###
-
-:start
-echo Hello world!
-sleep 10
-goto custom_exit
-
-:custom_exit
-exit 0
+set arch amd64
+set version v0.1.0-alpha12
+set url https://github.com/rancher/os2/releases/download/${version}
+set kernel rancheros-${version}-${arch}-kernel
+set initrd rancheros-${version}-${arch}-initrd
+set rootfs rancheros-${version}-${arch}.squashfs
+set iso    rancheros-${version}-${arch}.iso
+# set config http://example.com/machine-config
+# set cmdline extra.values=1
+kernel ${url}/${kernel} initrd=${initrd} ip=dhcp rd.cos.disable root=live:${url}/${rootfs} rancheros.install.automatic=true rancheros.install.iso_url=${url}/${iso} rancheros.install.config_url=${config} console=tty1 console=ttyS0 ${cmdline}
+initrd ${url}/${initrd}
+boot
